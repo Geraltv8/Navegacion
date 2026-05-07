@@ -38,7 +38,7 @@ fun Pantalla1(navController: NavController) {
         )
         TextField(value = edad,
             onValueChange = { if (it.length <= 3) edad = it },
-            label = { Text("Edad") },
+            label = { Text("Edd") },
             singleLine = true,
 
             keyboardOptions = KeyboardOptions(
