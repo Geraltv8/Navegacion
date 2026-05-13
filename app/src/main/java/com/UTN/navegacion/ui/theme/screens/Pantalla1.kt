@@ -1,12 +1,11 @@
 package com.UTN.navegacion.ui.theme.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,47 +15,48 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.UTN.navegacion.model.Usuario
+import com.UTN.navegacion.ui.theme.customComposables.CustomColumn
+import com.UTN.navegacion.ui.theme.customComposables.CustomEditText
 import com.UTN.navegacion.ui.theme.nav.DestinoPantalla2
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import com.UTN.navegacion.ui.theme.utils.createUserJson
 
 @Composable
 fun Pantalla1(navController: NavController) {
     var nombre by remember { mutableStateOf("") }
     var edad by remember { mutableStateOf("") }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)) {
-        TextField(
-            value = nombre,
-            onValueChange = { if (it.length <= 20) nombre = it },
-            label = { Text("Nombre") },
-            singleLine = true,
+    CustomColumn {
+        Text(text = "Registro de Usuario", style = MaterialTheme.typography.headlineMedium)
 
-        )
-        TextField(value = edad,
-            onValueChange = { if (it.length <= 3) edad = it },
-            label = { Text("Edd") },
-            singleLine = true,
+        Spacer(modifier = Modifier.height(32.dp))
 
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number
-            ),
+        CustomEditText(
+            nombre,
+            {nombre = it},
+            "Nombre del usuario",
+            15
         )
 
-        Button(onClick = {
-            val user = Usuario(
-                id = (1..1000).random(),
-                nombre = nombre,
-                edad = edad.toIntOrNull() ?: 0
-            )
+        Spacer(modifier = Modifier.height(16.dp))
 
-            val json = Json.encodeToString(user)
+        CustomEditText(
+            edad,
+            {edad = it},
+            "Edad del usuario",
+            3,
+            KeyboardType.Number
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Button(
+            onClick = {
+            val json = createUserJson(nombre, edad)
 
             navController.navigate(DestinoPantalla2(json))
-        }) {
+        },
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Text("Enviar a Pantalla 2")
         }
     }
