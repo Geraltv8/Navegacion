@@ -15,8 +15,8 @@ val Context.dataStore by preferencesDataStore(name = "user_prefs")
 class UserStore(private val context: Context) {
     private val USER_KEY = stringPreferencesKey("user_data")
 
-    suspend fun saveUser(user: Usuario) {
-        context.dataStore.edit { it[USER_KEY] = Json.encodeToString(user) }
+    suspend fun saveUser(user: String) {
+        context.dataStore.edit { it[USER_KEY] = user }
     }
 
     val userFlow: Flow<Usuario?> = context.dataStore.data.map { prefs ->

@@ -21,8 +21,8 @@ fun CustomEditText(
     onValueChange: (String) -> Unit,
     label: String,
     charLimit: Int,
-    keyboardType: KeyboardType = KeyboardType.Text) {
-
+    keyboardType: KeyboardType = KeyboardType.Text
+) {
     TextField(
         value = value,
         onValueChange = { newValue ->
